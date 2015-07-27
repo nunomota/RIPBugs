@@ -3,6 +3,10 @@ using System.Collections;
 
 public class Console {
 
+	/*
+	TODO change implementations from Array to Linked List
+	 */
+
 	private static int maxMessages = 20;	//maximum number of lines the console will keep stored
 	private string[] msgList;				//list of stored messages
 	private int indexOfLast;				//index of last string inserted (needed before reaching 'maxMessages')
@@ -21,7 +25,8 @@ public class Console {
 		this.position = position;
 		updateRect();
 
-		this.isVisible = true;
+		this.isVisible = false;
+		writeLine("Initialized successfully!");
 	}
 
 	//main console update
@@ -33,10 +38,19 @@ public class Console {
 	public void OnGUI() {
 		if (this.isVisible) {
 			GUILayout.BeginArea(this.rect, "Console", GUI.skin.window);
-				GUILayout.Box(Resources.Load ("Console/Background") as Texture);
+				GUILayout.TextArea(messageArrayAsString());
 				GUI.enabled = true;
 			GUILayout.EndArea();
 		}
+	}
+
+	//turns the array of messages into a single string
+	private string messageArrayAsString() {
+		string fullString = "";
+		for (int i = 0; i < msgList.Length && i < indexOfLast && indexOfLast > 0; i++) {
+			fullString += ">> " + msgList[i] + '\n';
+		}
+		return fullString;
 	}
 
 	//method used to update the rect of the console
@@ -53,16 +67,24 @@ public class Console {
 	//used to turn this console on/off
 	public void toggle() {
 		this.isVisible = !this.isVisible;
-		Debug.Log ("Console was toggled!");
+		writeLine("Console was toggled!");
 	}
 
 	//appends text at the end of current line
 	public void write(string msg) {
-
+		msgList[indexOfLast] += msg;
 	}
 
 	//adds a new line to the console
 	public void writeLine(string msg) {
-
+		if (indexOfLast == maxMessages-1) {
+			for (int i = 0; i < msgList.Length-1; i++) {
+				msgList[i] = msgList[i+1];
+			}
+			msgList[indexOfLast] = msg;
+		} else {
+			msgList[indexOfLast] = msg;
+			indexOfLast++;
+		}
 	}
 }
