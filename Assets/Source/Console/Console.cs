@@ -7,7 +7,7 @@ public class Console {
 	TODO change implementations from Array to Linked List
 	 */
 
-	private static int maxMessages = 20;	//maximum number of lines the console will keep stored
+	private static int maxMessages = 80;	//maximum number of lines the console will keep stored
 	private string[] msgList;				//list of stored messages
 	private int indexOfLast;				//index of last string inserted (needed before reaching 'maxMessages')
 	private int width, height;				//dimensions of the console window
@@ -15,6 +15,12 @@ public class Console {
 	private Rect rect;
 
 	private bool isVisible;
+
+	private Vector2 scrollPosition;
+	private string userInput;
+
+	//other variables irrelevant to logics
+	private int sendButtonWidth = 50;
 
 	//class' constructor
 	public Console(int width = 320, int height = 200, Vector2 position = default(Vector2)) {
@@ -26,6 +32,9 @@ public class Console {
 		updateRect();
 
 		this.isVisible = false;
+
+		this.scrollPosition = new Vector2(0.0f, maxMessages*25.0f);
+		this.userInput = "";
 		writeLine("Initialized successfully!");
 	}
 
@@ -38,8 +47,27 @@ public class Console {
 	public void OnGUI() {
 		if (this.isVisible) {
 			GUILayout.BeginArea(this.rect, "Console", GUI.skin.window);
-				GUILayout.TextArea(messageArrayAsString());
-				GUI.enabled = true;
+				GUILayout.BeginScrollView(
+					scrollPosition,
+					false,
+					true,
+					GUI.skin.horizontalScrollbar,
+					GUI.skin.verticalScrollbar,
+					GUI.skin.textArea
+					);
+					//writeLine(scrollPosition.ToString());
+					GUILayout.TextArea(messageArrayAsString());
+				GUILayout.EndScrollView();
+				GUILayout.BeginHorizontal();
+					userInput = GUILayout.TextField(userInput, GUILayout.Width(this.width - sendButtonWidth - GUI.skin.textField.border.right
+			                                                           										- GUI.skin.button.border.left
+			                                                           										- GUI.skin.window.border.right
+			                                                           										- GUI.skin.window.border.left));
+					if (GUILayout.Button("Send", GUILayout.Width(sendButtonWidth)) && userInput.Length > 0) {
+						writeLine("Running command '" + userInput + "'");
+						userInput = "";
+					}
+				GUILayout.EndHorizontal();
 			GUILayout.EndArea();
 		}
 	}
@@ -48,7 +76,7 @@ public class Console {
 	private string messageArrayAsString() {
 		string fullString = "";
 		for (int i = 0; i < msgList.Length && i < indexOfLast && indexOfLast > 0; i++) {
-			fullString += ">> " + msgList[i] + '\n';
+			fullString += ">> " + msgList[i] + ((i == msgList.Length-1 || i == indexOfLast-1) ? "" : "\n");
 		}
 		return fullString;
 	}
