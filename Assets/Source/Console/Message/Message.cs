@@ -13,9 +13,10 @@ public class Message {
 		this.messageText = messageText;
 		this.defaultMessageType = new MessageType(">>");
 		this.messageType = (messageType != null) ? messageType : defaultMessageType;
+		this.priority = priority;
 	}
 
 	public string getText() {
-		return messageType.colorText(messageText);
+		return messageType.colorText(messageText, priority);
 	}
 }
