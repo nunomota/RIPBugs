@@ -52,7 +52,7 @@ public class RIPBugs {
 
 	private void executeCommand(Command command) {
 		if (command != null) {
-			console.writeLine(string.Format("Executing command '{0}' with {1} options", command.getName(), command.getOptions().Length));
+			console.writeLine(string.Format("Executing command '{0}' with {1} option(s)", command.getName(), command.getOptions().Length));
 		}
 	}
 }
