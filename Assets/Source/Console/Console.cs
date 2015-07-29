@@ -1,26 +1,28 @@
 ﻿using UnityEngine;
 using System.Collections;
+using System.Collections.Generic;
 
 public class Console {
 
 	/*
 	TODO change implementations from Array to Linked List
 	 */
-
-	private static int maxMessages = 80;	//maximum number of lines the console will keep stored
+	private static int maxMessages = 20;	//maximum number of lines the console will keep stored
 	private string[] msgList;				//list of stored messages
 	private int indexOfLast;				//index of last string inserted (needed before reaching 'maxMessages')
 	private int width, height;				//dimensions of the console window
 	private Vector2 position;				//current position of the console
-	private Rect rect;
+	private Rect rect;						//Rect that defines position and size of console
 
-	private bool isVisible;
+	private bool isVisible;					//determines whether terminal is visible or not
 
 	private Vector2 scrollPosition;
-	private string userInput;
+	private string userCommand;
+	private Queue<Command> commands;		//queue of received commands
 
 	//other variables irrelevant to logics
 	private int sendButtonWidth = 50;
+	private string lineInitStr = ">> ";
 
 	//class' constructor
 	public Console(int width = 320, int height = 200, Vector2 position = default(Vector2)) {
@@ -34,7 +36,8 @@ public class Console {
 		this.isVisible = false;
 
 		this.scrollPosition = new Vector2(0.0f, maxMessages*25.0f);
-		this.userInput = "";
+		this.userCommand = "";
+		commands = new Queue<Command>();
 		writeLine("Initialized successfully!");
 	}
 
@@ -52,20 +55,19 @@ public class Console {
 					false,
 					true,
 					GUI.skin.horizontalScrollbar,
-					GUI.skin.verticalScrollbar,
-					GUI.skin.textArea
+					GUI.skin.verticalScrollbar
 					);
-					//writeLine(scrollPosition.ToString());
 					GUILayout.TextArea(messageArrayAsString());
 				GUILayout.EndScrollView();
 				GUILayout.BeginHorizontal();
-					userInput = GUILayout.TextField(userInput, GUILayout.Width(this.width - sendButtonWidth - GUI.skin.textField.border.right
-			                                                           										- GUI.skin.button.border.left
-			                                                           										- GUI.skin.window.border.right
-			                                                           										- GUI.skin.window.border.left));
-					if (GUILayout.Button("Send", GUILayout.Width(sendButtonWidth)) && userInput.Length > 0) {
-						writeLine("Running command '" + userInput + "'");
-						userInput = "";
+					userCommand = GUILayout.TextField(userCommand, GUILayout.Width(this.width - sendButtonWidth - GUI.skin.textField.border.right
+			                                                           											- GUI.skin.button.border.left
+			                                                           											- GUI.skin.window.border.right
+			                                                           											- GUI.skin.window.border.left));
+					if (GUILayout.Button("Send", GUILayout.Width(sendButtonWidth)) && userCommand.Length > 0) {
+						writeLine("Queueing command '" + userCommand + "'");
+						commands.Enqueue(new Command(userCommand));
+						userCommand = "";
 					}
 				GUILayout.EndHorizontal();
 			GUILayout.EndArea();
@@ -76,7 +78,7 @@ public class Console {
 	private string messageArrayAsString() {
 		string fullString = "";
 		for (int i = 0; i < msgList.Length && i < indexOfLast && indexOfLast > 0; i++) {
-			fullString += ">> " + msgList[i] + ((i == msgList.Length-1 || i == indexOfLast-1) ? "" : "\n");
+			fullString += lineInitStr + msgList[i] + ((i == msgList.Length-1 || i == indexOfLast-1) ? "" : "\n");
 		}
 		return fullString;
 	}
@@ -96,6 +98,19 @@ public class Console {
 	public void toggle() {
 		this.isVisible = !this.isVisible;
 		writeLine("Console was toggled!");
+	}
+
+	//used to know if terminal e showing or not
+	public bool isActive() {
+		return this.isVisible;
+	}
+
+	//gets next command in queue to be executed
+	public Command getNextCommand() {
+		if (commands.Count > 0) {
+			return commands.Dequeue();
+		}
+		return null;
 	}
 
 	//appends text at the end of current line

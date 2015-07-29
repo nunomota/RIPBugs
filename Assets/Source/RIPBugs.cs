@@ -20,7 +20,10 @@ public class RIPBugs {
 			if (togglePressed(new KeyCode[] {KeyCode.LeftControl, KeyCode.LeftAlt, KeyCode.D})) {
 				console.toggle();
 			}
-			console.update();
+			if (console.isActive()) {
+				console.update();
+				executeCommand(console.getNextCommand());
+			}
 		}
 	}
 
@@ -45,5 +48,11 @@ public class RIPBugs {
 			}
 		}
 		return newKeyPress;
+	}
+
+	private void executeCommand(Command command) {
+		if (command != null) {
+			console.writeLine(string.Format("Executing command '{0}' with {1} options", command.getName(), command.getOptions().Length));
+		}
 	}
 }
