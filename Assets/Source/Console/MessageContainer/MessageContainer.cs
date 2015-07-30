@@ -35,13 +35,13 @@ public class MessageContainer {
 		incIndex(ref curIndex);
 		while (curIndex != indexOfLast) {
 			if (messages[curIndex] != null) {
-				fullString += messages[curIndex].getText() + " [" + curIndex.ToString() + "]\n";
+				fullString += messages[curIndex].getText() + "\n";
 			}
 			incIndex(ref curIndex);
 		}
 		//last line will not have "\n" at the end
 		if (messages[curIndex] != null) {
-			fullString += messages[curIndex].getText() + " [" + curIndex.ToString() + "]";
+			fullString += messages[curIndex].getText();
 		}
 		return fullString;
 	}
