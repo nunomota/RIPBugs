@@ -7,9 +7,8 @@ public class Console {
 	/*
 	TODO change implementations from Array to Linked List
 	 */
-	private static int maxMessages = 20;	//maximum number of lines the console will keep stored
-	private Message[] msgList;				//list of stored messages
-	private int indexOfLast;				//index of last string inserted (needed before reaching 'maxMessages')
+	private static int maxMessages = 10;	//maximum number of lines the console will keep stored
+	private MessageContainer msgContainer;	//container of stored messages
 	private int width, height;				//dimensions of the console window
 	private Vector2 position;				//current position of the console
 	private Rect rect;						//Rect that defines position and size of console
@@ -31,8 +30,7 @@ public class Console {
 	//class' constructor
 	public Console(int width = 320, int height = 200, Vector2 position = default(Vector2)) {
 		this.consoleMessage = new MessageType("[Console]");
-		this.msgList = new Message[maxMessages];
-		this.indexOfLast = 0;
+		this.msgContainer = new MessageContainer(maxMessages);
 		this.width = width;
 		this.height = height;
 		this.position = position;
@@ -78,7 +76,7 @@ public class Console {
 					GUI.skin.horizontalScrollbar,
 					GUI.skin.verticalScrollbar
 					);
-					GUILayout.TextArea(messageArrayAsString(), textAreaStyle);
+					GUILayout.TextArea(msgContainer.ToString(), textAreaStyle);
 				GUILayout.EndScrollView();
 				GUILayout.BeginHorizontal();
 					userCommand = GUILayout.TextField(userCommand, GUILayout.Width(this.width - sendButtonWidth - GUI.skin.textField.border.right
@@ -93,15 +91,6 @@ public class Console {
 				GUILayout.EndHorizontal();
 			GUILayout.EndArea();
 		}
-	}
-
-	//turns the array of messages into a single string
-	private string messageArrayAsString() {
-		string fullString = "";
-		for (int i = 0; i < msgList.Length && i < indexOfLast && indexOfLast > 0; i++) {
-			fullString += msgList[i].getText() + ((i == msgList.Length-1 || i == indexOfLast-1) ? "" : "\n");
-		}
-		return fullString;
 	}
 
 	//method used to update the rect of the console
@@ -137,14 +126,6 @@ public class Console {
 	//adds a new line to the console
 	//priority sets a priority for the message
 	public void writeLine(string msg, MessageType messageType = default(MessageType), int priority = 0) {
-		if (indexOfLast == maxMessages-1) {
-			for (int i = 0; i < msgList.Length-1; i++) {
-				msgList[i] = msgList[i+1];
-			}
-			msgList[indexOfLast] = new Message(msg, messageType, priority);
-		} else {
-			msgList[indexOfLast] = new Message(msg, messageType, priority);
-			indexOfLast++;
-		}
+		msgContainer.addMessage(new Message(msg, messageType, priority));
 	}
 }
