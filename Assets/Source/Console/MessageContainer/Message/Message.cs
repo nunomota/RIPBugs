@@ -6,6 +6,7 @@ public class Message {
 	private string messageText;
 	private MessageType messageType;
 	private int priority;
+	private bool isVisible;
 
 	private MessageType defaultMessageType;
 
@@ -14,9 +15,14 @@ public class Message {
 		this.defaultMessageType = new MessageType(">>");
 		this.messageType = (messageType != null) ? messageType : defaultMessageType;
 		this.priority = priority;
+		setVisibility();
 	}
 
 	public string getText() {
 		return messageType.colorText(messageText, priority);
+	}
+
+	private void setVisibility() {
+		//TODO check according to a MessageFilter
 	}
 }
