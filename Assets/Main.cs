@@ -14,6 +14,16 @@ public class Main : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
 		debugger.update();
+		checkInput();
+	}
+
+	private void checkInput() {
+		if (Input.anyKeyDown) {
+			Debug.Log ("some key was pressed!");
+		}
+		if (Input.GetKeyDown(KeyCode.A)) {
+			Debug.Log ("A was pressed");
+		}
 	}
 
 	void OnGUI() {
