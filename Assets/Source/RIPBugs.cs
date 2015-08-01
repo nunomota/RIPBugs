@@ -17,7 +17,7 @@ public class RIPBugs {
 
 	public void update() {
 		if (this.isActive) {
-			if (togglePressed(new KeyCode[] {KeyCode.LeftControl, KeyCode.LeftAlt, KeyCode.D})) {
+			if (togglePressed(new KeyCode[] {KeyCode.LeftControl, KeyCode.LeftShift})) {
 				console.toggle();
 			}
 			if (console.isActive()) {
