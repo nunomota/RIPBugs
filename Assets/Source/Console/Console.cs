@@ -17,7 +17,6 @@ public class Console {
 	private Queue<Command> commands;		//queue of received commands
 
 	//other variables irrelevant to logics
-	private int sendButtonWidth = 50;
 	private MessageType consoleMessage;
 
 	//Texturing
@@ -73,8 +72,6 @@ public class Console {
 
 		scrollBarStyle = new GUIStyle();
 		scrollBarStyle.normal.background = Resources.Load("Console/ScrollBar/Background") as Texture2D;
-
-		this.writeLine(string.Format("Line Height is {0}", textAreaStyle.lineHeight), consoleMessage, 1);
 	}
 
 	//main console update
