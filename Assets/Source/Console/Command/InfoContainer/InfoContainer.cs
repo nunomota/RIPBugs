@@ -14,7 +14,19 @@ public class InfoContainer {
 		this.description = description;
 	}
 
-	public override string ToString () {
+	public string getName() {
+		return this.name;
+	}
+
+	public string getDescription() {
+		return this.description;
+	}
+
+	public virtual string simpleString () {
+		return this.name;
+	}
+
+	public virtual string detailedString() {
 		return string.Format ("{0}:\n{1}", this.name, this.description);
 	}
 }
