@@ -7,14 +7,15 @@ using System.Collections;
  */
 public class HashTable {
 
+	private const int occupationDefault = 50;
 	private int size;							//size of the array needed to store the values
 	private CommandInfo[] array;				//array behind the HashTable (where the values are stored)
 	private static string validCharacters = "0123456789abcdefghijklmnopqrstuvwxyz";
 
 	private MessageType hashTableMessageType;
 
-	public HashTable(int nElements, int occupationFactorPercentage = 50) {
-		this.size = calculateAdequateSize(size, occupationFactorPercentage);
+	public HashTable(int nElements, int occupationFactorPercentage = occupationDefault) {
+		this.size = calculateAdequateSize(nElements, occupationFactorPercentage);
 		array = new CommandInfo[this.size];
 
 		hashTableMessageType = new MessageType("[HashTable]");
@@ -50,9 +51,9 @@ public class HashTable {
 			127, 131, 137, 139, 149};
 
 		//just as a precaution
-		if (occupationFactorPercentage <= 0 && occupationFactorPercentage > 100) {
-			RIPBugs.console.writeLine("Occupation percetage was not within the interval ]0%, 100%]... Defaulting to 100%", hashTableMessageType, 1);
-			occupationFactorPercentage = 100;
+		if (occupationFactorPercentage <= 0 || occupationFactorPercentage > 100) {
+			RIPBugs.console.writeLine(string.Format("Occupation percetage was not within the interval ]0%, 100%]... Defaulting to {0}%", occupationDefault), hashTableMessageType, 1);
+			occupationFactorPercentage = occupationDefault;
 		}
 		int minSizeNeeded = Mathf.CeilToInt((float)nElements * (100.0f/(float)occupationFactorPercentage));
 		int adequateSize;
