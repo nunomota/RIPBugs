@@ -18,7 +18,7 @@ public class CommandInfo : InfoContainer {
 	public override string simpleString () {
 		string finalString = base.simpleString();
 		for (int i = 0; i < flags.Count; i++) {
-			finalString += " " + flags[i].ToString();
+			finalString += " " + flags[i].simpleString();
 		}
 		return finalString;
 	}
@@ -26,7 +26,7 @@ public class CommandInfo : InfoContainer {
 	public override string detailedString() {
 		string finalString = string.Format("{0}\n\nFlags:\n\n", base.detailedString());
 		for (int i = 0; i < flags.Count; i++) {
-			finalString += flags[i].ToString() + "\n";
+			finalString += flags[i].detailedString() + "\n";
 		}
 		return finalString;
 	}

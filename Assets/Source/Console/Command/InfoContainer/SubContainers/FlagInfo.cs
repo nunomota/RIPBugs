@@ -5,8 +5,8 @@ public class FlagInfo : InfoContainer {
 
 	private bool dependencies;
 
-	public FlagInfo(string name, bool dependencies = false) : base(name) {
-
+	public FlagInfo(string name, string dependencies = "null") : base(name) {
+		this.dependencies = (dependencies == "null") ? false: true;
 	}
 
 	public override string simpleString () {
