@@ -28,14 +28,14 @@ public class CommandHandler {
 		case "help":
 			string[] options = command.getOptions();
 			if (options.Length == 0) {
-				//TODO print the entire list of commands
 				printCommandList();
 			} else {
 				//TODO print only the command's information
+				printCommandInfo(options[0]);
 			}
 			break;
 		default:
-			RIPBugs.console.writeLine(string.Format("{0}: command not found. Type 'help' to get a list of existing commands", command.getName()));
+			commandNotFoundPrint(command.getName());
 			return -1;
 		}
 		return 0;
@@ -75,6 +75,7 @@ public class CommandHandler {
 	}
 
 	private void createHashTable() {
+		Debug.Log(string.Format ("List has {0} commands", commandList.Count));
 		commandTable = new HashTable(commandList.Count);
 		foreach(CommandInfo commandInfo in commandList) {
 			commandTable.add(commandInfo);
@@ -83,11 +84,24 @@ public class CommandHandler {
 
 	private void printCommandList() {
 		CommandInfo helpInfo = commandTable.get("help");
-		RIPBugs.console.writeLine(helpInfo.getDescription());
+		RIPBugs.console.writeLine(helpInfo.getDescription(), commandMessageType, 0);
 		foreach(CommandInfo commandInfo in commandList) {
 			if (commandInfo.getName() != "help") {
 				RIPBugs.console.writeLine(commandInfo.simpleString(), commandMessageType, 0);
 			}
 		}
+	}
+
+	private void printCommandInfo(string commandName) {
+		CommandInfo commandInfo = commandTable.get(commandName);
+		if (commandInfo != null) {
+			RIPBugs.console.writeLine(commandInfo.detailedString());
+		} else {
+			commandNotFoundPrint(commandName);
+		}
+	}
+
+	private void commandNotFoundPrint(string commandName) {
+		RIPBugs.console.writeLine(string.Format("{0}: command not found. Type 'help' to get a list of existing commands", commandName));
 	}
 }
