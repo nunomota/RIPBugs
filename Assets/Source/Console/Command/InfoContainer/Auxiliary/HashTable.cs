@@ -109,7 +109,7 @@ public class HashTable {
 	//collision handler, with simple linear probing
 	private int collisionHandler(int index) {
 		int curIndex = index;
-		while (curIndex != null) {
+		while (array[curIndex] != null) {
 			incIndex(ref curIndex);
 		}
 		return curIndex;
