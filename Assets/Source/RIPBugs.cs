@@ -4,7 +4,7 @@ using System.Collections;
 public static class RIPBugs {
 
 	private static bool isActive = false;									//toggles debugger on/off
-	public static Console console = new Console();							//main console used by debugger
+	public static Console console = new Console(1280, 720);					//main console used by debugger
 	private static CommandHandler commandHandler = new CommandHandler();	//handler that executes and interprets commands
 
 	public static void enable() {

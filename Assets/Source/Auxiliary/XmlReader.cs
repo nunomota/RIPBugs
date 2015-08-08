@@ -27,7 +27,11 @@ public class MyXmlReader {
 			foreach(XmlNode commandInfo in commandSections) {
 				switch(commandInfo.Name) {
 				case "description":
-					newCommandInfo.setDescription(commandInfo.InnerText);
+					string rawDescription = commandInfo.InnerText;
+					rawDescription = rawDescription.Trim('\n', '\r', '\t', ' ');
+					//rawDescription.Replace(' ', '*');
+					//rawDescription.Replace('\t', '*');
+					newCommandInfo.setDescription(rawDescription);
 					break;
 				case "flags":
 					//run for each one of the flags associated with the command

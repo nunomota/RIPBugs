@@ -2,10 +2,10 @@
 
     <Command name="help">
 	    <description>
-		RTConsole version 1.0.0, Unity release
-		These commands are defined internally. Type 'help' to see this list. Type 'help name' to find out more information about the command 'name'.
+				[RTConsole version 1.0.0, Unity release]
+				These commands are defined internally. Type 'help' to see this list. Type 'help name' to find out more information about the command 'name'.
 	    
-		A start (*) next to a name/flag means that the next parameter is needed by it.
+				A sharp (#) before a name/flag means it is a mandatory field. A star (*) next to a name/flag means that the next parameter is needed.
 	    </description>
 	    <flags>
 	        <flag name="command"></flag>
@@ -14,7 +14,7 @@
 
     <Command name="filter">
       	<description>
-		Used to apply/remove a filter to all messages with a certain tag. Only new messages will be affected by the filter
+				Used to apply/remove a filter to all messages with a certain tag. Only new messages will be affected by the filter
       	</description>
       	<flags>
       		<flag name="tag" dependencies="*">Used to specify which message tag will be used</flag>

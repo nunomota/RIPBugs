@@ -58,7 +58,7 @@ public class CommandHandler {
 
 	private void printCommandList() {
 		CommandInfo helpInfo = commandTable.get("help");
-		RIPBugs.console.writeLine(helpInfo.getDescription(), commandMessageType, 0);
+		RIPBugs.console.writeLine(string.Format("help:\n{0}\n", helpInfo.getDescription()), commandMessageType, 0);
 		foreach(CommandInfo commandInfo in commandList) {
 			if (commandInfo.getName() != "help") {
 				RIPBugs.console.writeLine(commandInfo.simpleString(), commandMessageType, 0);
