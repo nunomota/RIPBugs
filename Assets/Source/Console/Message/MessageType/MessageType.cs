@@ -13,7 +13,7 @@ public class MessageType {
 		this.textColors.Add("white");
 		this.textColors.Add("yellow");
 		this.textColors.Add ("red");
-		this.isVisible = false;
+		this.isVisible = true;
 
 		this.tag = tag;
 		MessageFilter.register(this);

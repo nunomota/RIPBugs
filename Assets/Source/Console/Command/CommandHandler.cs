@@ -5,18 +5,14 @@ using System.Xml;
 using System.IO;
 
 public class CommandHandler {
-
-	private TextAsset commandDB;				//the XML that will be read
+	
 	private MessageType commandMessageType;		//the custom MessageType for console prints
 	private List<CommandInfo> commandList;		//the list of supported commands (to be iterated)
-	private HashTable commandTable;				//hashtable of supportted commands (for quick search)
+	private CommandHashTable commandTable;				//hashtable of supportted commands (for quick search)
 
 	public CommandHandler() {
-		this.commandDB = Resources.Load ("Console/Commands/DataBase") as TextAsset;
 		this.commandMessageType = new MessageType("[CmdHndl]");
-		this.commandList = new List<CommandInfo>();
-
-		loadXml();
+		loadXml("Console/Commands/DataBase");
 	}
 
 	//values below 0 mean an error ocurred
@@ -24,14 +20,21 @@ public class CommandHandler {
 		if (command == null) {
 			return -1;
 		}
+		string[] options = command.getOptions();
 		switch (command.getName()) {
 		case "help":
-			string[] options = command.getOptions();
 			if (options.Length == 0) {
 				printCommandList();
 			} else {
-				//TODO print only the command's information
 				printCommandInfo(options[0]);
+			}
+			break;
+		case "filter":
+			if (options.Length < 2) {
+				//TODO some warning about wrong command usage
+				//maybe count dependencies and compare to that value...?
+			} else {
+				MessageFilter.toogle(options[0], (options[1] == "on")? true: false);
 			}
 			break;
 		default:
@@ -41,45 +44,16 @@ public class CommandHandler {
 		return 0;
 	}
 
-	private void loadXml() {
-		XmlDocument xmlDoc = new XmlDocument();
-		xmlDoc.LoadXml(commandDB.text);
-		XmlNodeList commandTempList = xmlDoc.GetElementsByTagName("Command");
-
-		//run for each command in the XML file
-		foreach(XmlNode command in commandTempList) {
-			CommandInfo newCommandInfo = new CommandInfo(command.Attributes["name"].Value);
-			XmlNodeList commandSections = command.ChildNodes;
-			//run for each section inside the command
-			foreach(XmlNode commandInfo in commandSections) {
-				switch(commandInfo.Name) {
-				case "description":
-					newCommandInfo.setDescription(commandInfo.InnerText);
-					break;
-				case "flags":
-					//run for each one of the flags associated with the command
-					XmlNodeList flags = commandInfo.ChildNodes;
-					foreach(XmlNode flag in flags) {
-						FlagInfo newFlagInfo = new FlagInfo(flag.Attributes["name"].Value);
-						newFlagInfo.setDescription(flag.InnerText);
-						newCommandInfo.addFlag(newFlagInfo);
-					}
-					break;
-				default:
-					break;
-				}
-			}
-			commandList.Add(newCommandInfo);
-		}
+	private void loadXml(string xmlPath) {
+		MyXmlReader xmlReader = new MyXmlReader(xmlPath);
+		commandList = xmlReader.readXmlCommands();
 		createHashTable();
 	}
 
 	private void createHashTable() {
-		Debug.Log(string.Format ("List has {0} commands", commandList.Count));
-		commandTable = new HashTable(commandList.Count);
-		foreach(CommandInfo commandInfo in commandList) {
-			commandTable.add(commandInfo);
-		}
+		//Debug.Log(string.Format ("List has {0} commands", commandList.Count));
+		commandTable = new CommandHashTable();
+		commandTable.populate(commandList);
 	}
 
 	private void printCommandList() {

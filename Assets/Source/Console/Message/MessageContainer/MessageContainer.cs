@@ -11,18 +11,28 @@ public class MessageContainer {
 	private int maxMessages;		//Limit of messages to be stored
 	private int indexOfLast;		//index of the last element of the array
 
+	private MessageType messageType;
+
 	public MessageContainer(int numberOfMessages) {
 		this.messagesStored = 0;
 		this.maxMessages = numberOfMessages;
 		this.messages = new Message[(numberOfMessages > 0) ? numberOfMessages : defaultNumberOfMessages];
 		this.indexOfLast = messages.Length-1;
+
+		this.messageType = new MessageType("[MsgCont]");
+		this.messageType.addColors("blue");
 	}
 
 	//adds a new message to the end of the array
 	public void addMessage(Message message) {
-		incIndex(ref indexOfLast);
-		this.messages[indexOfLast] = message;
-		messagesStored += (messagesStored < maxMessages)? 1: 0;
+		if (message.getType().getVisibility()) {
+			Debug.Log("MessageType enabled, adding message");
+			incIndex(ref indexOfLast);
+			this.messages[indexOfLast] = message;
+			messagesStored += (messagesStored < maxMessages)? 1: 0;
+		} else {
+			Debug.Log("MessageType disabled, discarding message");
+		}
 	}
 
 	//increments a certain index
