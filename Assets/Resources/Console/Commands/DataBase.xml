@@ -17,8 +17,8 @@
 		Used to apply/remove a filter to all messages with a certain tag. Only new messages will be affected by the filter
       	</description>
       	<flags>
-	      	<flag name="toggle" dependencies="*">Used to turn on/off a certain filter</flag>
-	      	<flag name="tag" dependencies="null">Used to specify which message tag will be used</flag>
+      		<flag name="tag" dependencies="*">Used to specify which message tag will be used</flag>
+	      	<flag name="status" dependencies="null">Used to turn on/off the specified tag</flag>
 	    </flags>
     </Command>
 
