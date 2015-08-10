@@ -3,9 +3,11 @@ using System.Collections;
 using System.Collections.Generic;
 
 /*
- * This is not a generic type of HashTable,
- * it was designed simply to store CommandInfo
+
  */
+/// <summary>
+/// This is not a generic type of HashTable, it was designed simply to store CommandInfo.
+/// </summary>
 public class CommandHashTable {
 
 	private const int occupationDefault = 50;
@@ -16,6 +18,10 @@ public class CommandHashTable {
 
 	private MessageType hashTableMessageType;
 
+	/// <summary>
+	/// Initializes a new instance of the <see cref="CommandHashTable"/> class.
+	/// </summary>
+	/// <param name="occupationFactorPercentage">Occupation factor as a percentage.</param>
 	public CommandHashTable(int occupationFactorPercentage = occupationDefault) {
 		//this.size = calculateAdequateSize(nElements, occupationFactorPercentage);
 		//array = new CommandInfo[this.size];
@@ -24,6 +30,10 @@ public class CommandHashTable {
 		hashTableMessageType = new MessageType("[HashTable]");
 	}
 
+	/// <summary>
+	/// Populate the HashTable from a specified commandList.
+	/// </summary>
+	/// <param name="commandList">Command list.</param>
 	public void populate(List<CommandInfo> commandList) {
 		this.size = calculateAdequateSize(commandList.Count, occupationFactorPercentage);
 		this.array = new CommandInfo[this.size];
@@ -31,8 +41,11 @@ public class CommandHashTable {
 			this.add(commandInfo);
 		}
 	}
-
-	//used to add a new element to the HashTable
+	
+	/// <summary>
+	/// Add a new element to the HashTable.
+	/// </summary>
+	/// <param name="commandInfo"><see cref="CommandInfo"/> to be added.</param>
 	private void add(CommandInfo commandInfo) {
 		int index = hashFunction(commandInfo.getName());
 		if (array[index] != null) {
@@ -40,8 +53,11 @@ public class CommandHashTable {
 		}
 		array[index] = commandInfo;
 	}
-
-	//linear probing solution
+	
+	/// <summary>
+	/// Get the specified <see cref="CommandInfo"/> (linear probing solution).
+	/// </summary>
+	/// <param name="commandName">Command name.</param>
 	public CommandInfo get(string commandName) {
 		int index = hashFunction(commandName);
 		while (array[index] != null && array[index].getName() != commandName) {
@@ -49,8 +65,13 @@ public class CommandHashTable {
 		}
 		return array[index];
 	}
-
-	//calculates and returns the most suitable size for the HashTable, according to the parameters
+	
+	/// <summary>
+	/// Calculates and returns the most suitable size for the HashTable, according to the parameters.
+	/// </summary>
+	/// <returns>The final calculated size.</returns>
+	/// <param name="nElements">Number of elements.</param>
+	/// <param name="occupationFactorPercentage">Occupation factor as a percentage.</param>
 	private int calculateAdequateSize(int nElements, int occupationFactorPercentage) {
 		//up to 70 commands with 50% occupation seems about enough
 		int[] primeNumbers = new int[]{ 
@@ -76,11 +97,13 @@ public class CommandHashTable {
 		}
 		return adequateSize;
 	}
-
-	/*
-	 * used to fetch the prime number exactly above a certain value (if it is in the array)
-	 * if this value cannot be retrieved, returns -1
-	*/
+	
+	/// <summary>
+	/// Fetches the prime number exactly above a certain value (if it is in the array).
+	/// </summary>
+	/// <returns>The prime or -1, if this value cannot be retrieved.</returns>
+	/// <param name="minSizeNeeded">Minimum size needed.</param>
+	/// <param name="primeNumbers">Prime numbers.</param>
 	private int nextPrime(int minSizeNeeded, int[] primeNumbers) {
 		if (minSizeNeeded <= primeNumbers[primeNumbers.Length-1]) {
 			for (int i = 0; i < primeNumbers.Length; i++) {
@@ -92,12 +115,14 @@ public class CommandHashTable {
 		return -1;
 	}
 
-	/*
-	 * Function used to calculate the target index for a certain
-	 * CommandInfo object; Works in the same way as binary -> decimal
-	 * conversion but with a base equal to the number of valid characters
-	 * and not 2
-	 */
+	/// <summary>
+	/// Function used to calculate the target index.
+	/// </summary>
+	/// <remarks>
+	/// Works in the same way as binary -> decimal conversion but with a base equal to the number of valid characters and not 2
+	/// </remarks>
+	/// <returns>The function.</returns>
+	/// <param name="commandName">Command name.</param>
 	private int hashFunction(string commandName) {
 		double sum = 0;
 		int charIndex;
@@ -113,11 +138,20 @@ public class CommandHashTable {
 		return (int)(sum % size);
 	}
 
+	/// <summary>
+	/// Gets the index of the char in the specified alphabet.
+	/// </summary>
+	/// <returns>The char index.</returns>
+	/// <param name="character">Character.</param>
 	private int getCharIndex(char character) {
 		return validCharacters.IndexOf(character);
 	}
-
-	//collision handler, with simple linear probing
+	
+	/// <summary>
+	/// Collisions handler, with simple linear probing.
+	/// </summary>
+	/// <returns>The index calculated.</returns>
+	/// <param name="index">Index of collision.</param>
 	private int collisionHandler(int index) {
 		int curIndex = index;
 		while (array[curIndex] != null) {
@@ -125,8 +159,11 @@ public class CommandHashTable {
 		}
 		return curIndex;
 	}
-
-	//used to incremente and index and loop it inside the array
+	
+	/// <summary>
+	/// Increments an index and loops it inside the array.
+	/// </summary>
+	/// <param name="index">Index.</param>
 	private void incIndex(ref int index) {
 		index = (index+1 < this.size)? index+1: 0;
 	}

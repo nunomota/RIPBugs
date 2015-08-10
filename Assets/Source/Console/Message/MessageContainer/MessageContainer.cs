@@ -1,7 +1,9 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-//this class will mimic an implementation of a circular array
+/// <summary>
+/// Used as a container for all <see cref="Message"/>. It will mimic an implementation of a circular array.
+/// </summary>
 public class MessageContainer {
 
 	private const int defaultNumberOfMessages = 20;
@@ -13,6 +15,10 @@ public class MessageContainer {
 
 	private MessageType messageType;
 
+	/// <summary>
+	/// Initializes a new instance of the <see cref="MessageContainer"/> class.
+	/// </summary>
+	/// <param name="numberOfMessages">Number of maximum messages that can be stored.</param>
 	public MessageContainer(int numberOfMessages) {
 		this.messagesStored = 0;
 		this.maxMessages = numberOfMessages;
@@ -22,8 +28,11 @@ public class MessageContainer {
 		this.messageType = new MessageType("[MsgCont]");
 		this.messageType.addColors("blue");
 	}
-
-	//adds a new message to the end of the array
+	
+	/// <summary>
+	/// Adds a new message to the end of the array.
+	/// </summary>
+	/// <param name="message"><see cref="Message"/> to be added.</param>
 	public void addMessage(Message message) {
 		if (message.getType().getVisibility()) {
 			Debug.Log("MessageType enabled, adding message");
@@ -34,13 +43,19 @@ public class MessageContainer {
 			Debug.Log("MessageType disabled, discarding message");
 		}
 	}
-
-	//increments a certain index
+	
+	/// <summary>
+	/// Increments a certain index.
+	/// </summary>
+	/// <param name="targetIndex">Target index.</param>
 	private void incIndex(ref int targetIndex) {
 		targetIndex = ((targetIndex+1) < maxMessages) ? targetIndex+1: 0;
 	}
-
-	//returns all messages stored as a single string
+	
+	/// <summary>
+	/// Returns a string that represents the current object.
+	/// </summary>
+	/// <returns>All <see cref="Message"/> stored as a single string.</returns>
 	public override string ToString() {
 		string fullString = "";
 		//if indexOfLast is the last index, incIndex(indexOfLast) will be the 1st
@@ -58,8 +73,10 @@ public class MessageContainer {
 		}
 		return fullString;
 	}
-
-	//returns the number of stored messages
+	
+	/// <summary>
+	/// Gets the number of stored messages.
+	/// </summary>
 	public int Count() {
 		return this.messagesStored;
 	}

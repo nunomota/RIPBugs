@@ -4,16 +4,27 @@ using System.Collections.Generic;
 using System.Xml;
 using System.IO;
 
+/// <summary>
+/// My xml reader. Class used to read all the Commands in a XML file and load the into memory.
+/// </summary>
 public class MyXmlReader {
 
 	private TextAsset textDB;
 	private List<CommandInfo> commandList;
 
+	/// <summary>
+	/// Initializes a new instance of the <see cref="MyXmlReader"/> class.
+	/// </summary>
+	/// <param name="xmlPath">Xml file path.</param>
 	public MyXmlReader(string xmlPath) {
 		this.textDB = Resources.Load(xmlPath) as TextAsset;
 		this.commandList = new List<CommandInfo>();
 	}
 
+	/// <summary>
+	/// Reads the xml commands.
+	/// </summary>
+	/// <returns>The xml commands as List<Commands>.</returns>
 	public List<CommandInfo> readXmlCommands() {
 		XmlDocument xmlDoc = new XmlDocument();
 		xmlDoc.LoadXml(textDB.text);

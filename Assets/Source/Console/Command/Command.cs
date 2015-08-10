@@ -2,18 +2,27 @@
 using System.Collections;
 using System.Collections.Generic;
 
+/// <summary>
+/// Command issue in the <see cref="Console"/>.
+/// </summary>
 public class Command {
 
 	private string command;				//command requested by user
 	private Queue<string> options;		//list of options specified for command
 
-	//class' constructor
+	/// <summary>
+	/// Initializes a new instance of the <see cref="Command"/> class.
+	/// </summary>
+	/// <param name="line"><see cref="Command"/> as a string.</param>
 	public Command(string line) {
 		this.options = new Queue<string>();
 		parseCommand(line);
 	}
-
-	//method used to parse the user input
+	
+	/// <summary>
+	/// Parses the command.
+	/// </summary>
+	/// <param name="line">User input string.</param>
 	private void parseCommand(string line) {
 		string[] splitLine = line.Split(new char[]{' '});
 		command = splitLine[0];
@@ -27,12 +36,17 @@ public class Command {
 		}
 	}
 
-	//get the command name
+	/// <summary>
+	/// Gets the name of the <see cref="Command"/>.
+	/// </summary>
 	public string getName() {
 		return this.command;
 	}
-
-	//get specified options
+	
+	/// <summary>
+	/// Gets the options specified by the user.
+	/// </summary>
+	/// <returns>Array of options.</returns>
 	public string[] getOptions() {
 		string[] array = new string[options.Count];
 		IEnumerable opts = options;

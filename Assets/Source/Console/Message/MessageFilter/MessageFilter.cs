@@ -2,14 +2,26 @@
 using System.Collections;
 using System.Collections.Generic;
 
+/// <summary>
+/// Simple filter used to enable user to choose which <see cref="MessageType"/> beome visible in the <see cref="Console"/>
+/// </summary>
 public static class MessageFilter {
 
 	private static List<MessageType> typeList = new List<MessageType>();
 
+	/// <summary>
+	/// Register the specified <see cref="MessageType"/>.
+	/// </summary>
+	/// <param name="messageType"><see cref="MessageType"/> to be added.</param>
 	public static void register(MessageType messageType) {
 		typeList.Add(messageType);
 	}
 
+	/// <summary>
+	/// Toogle the specified <see cref="MessageType"/> visibility by tag.
+	/// </summary>
+	/// <param name="tag">Target tag.</param>
+	/// <param name="visibility">Desired visibility.</param>
 	public static void toogle(string tag, bool visibility) {
 		MessageType messageType = find (tag);
 		if (messageType != null) {
@@ -20,6 +32,11 @@ public static class MessageFilter {
 		}
 	}
 
+	/// <summary>
+	/// Toogle the specified tag's visibility.
+	/// </summary>
+	/// <param name="tag">Target <see cref="MessageType"/>.</param>
+	/// <param name="visibility">Desired visibility.</param>
 	public static void toogle(MessageType messageType, bool visibility) {
 		messageType.toogle(visibility);
 	}
