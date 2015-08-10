@@ -8,7 +8,7 @@ public class CommandHandler {
 	
 	private MessageType commandMessageType;		//the custom MessageType for console prints
 	private List<CommandInfo> commandList;		//the list of supported commands (to be iterated)
-	private CommandHashTable commandTable;				//hashtable of supportted commands (for quick search)
+	private CommandHashTable commandTable;		//hashtable of supportted commands (for quick search)
 
 	public CommandHandler() {
 		this.commandMessageType = new MessageType("[CmdHndl]");
