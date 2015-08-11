@@ -20,7 +20,7 @@ public class Message {
 	/// <param name="priority">Priority.</param>
 	public Message(string messageText, MessageType messageType = default(MessageType), int priority = 0) {
 		this.messageText = messageText;
-		this.defaultMessageType = new MessageType(">>");
+		this.defaultMessageType = new MessageType(tag: ">>");
 		this.messageType = (messageType != null) ? messageType : defaultMessageType;
 		this.priority = priority;
 	}
@@ -38,6 +38,6 @@ public class Message {
 	/// </summary>
 	/// <returns>A RTF string, formatted according to the <see cref="MessageType"/> specifications.</returns>
 	public string getText() {
-		return messageType.colorText(messageText, priority);
+		return messageType.colorText(line: messageText, priority: priority);
 	}
 }

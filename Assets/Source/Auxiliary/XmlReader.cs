@@ -17,7 +17,7 @@ public class MyXmlReader {
 	/// </summary>
 	/// <param name="xmlPath">Xml file path.</param>
 	public MyXmlReader(string xmlPath) {
-		this.textDB = Resources.Load(xmlPath) as TextAsset;
+		this.textDB = Resources.Load(path: xmlPath) as TextAsset;
 		this.commandList = new List<CommandInfo>();
 	}
 
@@ -27,37 +27,37 @@ public class MyXmlReader {
 	/// <returns>The xml commands as List<Commands>.</returns>
 	public List<CommandInfo> readXmlCommands() {
 		XmlDocument xmlDoc = new XmlDocument();
-		xmlDoc.LoadXml(textDB.text);
-		XmlNodeList commandTempList = xmlDoc.GetElementsByTagName("Command");
+		xmlDoc.LoadXml(xml: textDB.text);
+		XmlNodeList commandTempList = xmlDoc.GetElementsByTagName(name: "Command");
 		
 		//run for each command in the XML file
 		foreach(XmlNode command in commandTempList) {
-			CommandInfo newCommandInfo = new CommandInfo(command.Attributes["name"].Value);
+			CommandInfo newCommandInfo = new CommandInfo(name: command.Attributes["name"].Value);
 			XmlNodeList commandSections = command.ChildNodes;
 			//run for each section inside the command
 			foreach(XmlNode commandInfo in commandSections) {
 				switch(commandInfo.Name) {
 				case "description":
 					string rawDescription = commandInfo.InnerText;
-					rawDescription = rawDescription.Trim('\n', '\r', '\t', ' ');
+					rawDescription = rawDescription.Trim(trimChars: new char[]{'\n', '\r', '\t', ' '});
 					//rawDescription.Replace(' ', '*');
 					//rawDescription.Replace('\t', '*');
-					newCommandInfo.setDescription(rawDescription);
+					newCommandInfo.setDescription(description: rawDescription);
 					break;
 				case "flags":
 					//run for each one of the flags associated with the command
 					XmlNodeList flags = commandInfo.ChildNodes;
 					foreach(XmlNode flag in flags) {
-						FlagInfo newFlagInfo = new FlagInfo(flag.Attributes["name"].Value);
-						newFlagInfo.setDescription(flag.InnerText);
-						newCommandInfo.addFlag(newFlagInfo);
+						FlagInfo newFlagInfo = new FlagInfo(name: flag.Attributes["name"].Value);
+						newFlagInfo.setDescription(description: flag.InnerText);
+						newCommandInfo.addFlag(flagInfo: newFlagInfo);
 					}
 					break;
 				default:
 					break;
 				}
 			}
-			commandList.Add(newCommandInfo);
+			commandList.Add(item: newCommandInfo);
 		}
 		return commandList;
 	}

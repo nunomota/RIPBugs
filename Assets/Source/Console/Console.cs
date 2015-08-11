@@ -25,8 +25,8 @@ public class Console {
 
 	//class' constructor
 	public Console(int width = 320, int height = 200, Vector2 position = default(Vector2)) {
-		this.consoleMessage = new MessageType("[Console]");
-		this.msgContainer = new MessageContainer(maxMessages);
+		this.consoleMessage = new MessageType(tag: "[Console]");
+		this.msgContainer = new MessageContainer(numberOfMessages: maxMessages);
 		this.width = width;
 		this.height = height;
 		this.position = position;
@@ -34,23 +34,23 @@ public class Console {
 
 		this.isVisible = false;
 
-		this.scrollPosition = new Vector2(0.0f, maxMessages*25.0f);
+		this.scrollPosition = new Vector2(x: 0.0f, y: maxMessages*25.0f);
 		this.userCommand = "";
 		commands = new Queue<Command>();
 
 		setupCustomStyles();
 		Input.eatKeyPressOnTextFieldFocus = false;
-		writeLine("Initialized successfully!", consoleMessage, 0);
+		writeLine(msg: "Initialized successfully!", messageType: consoleMessage, priority: 0);
 	}
 
 	private void setupCustomStyles() {
 		int consolefontSize = 12;
-		Font consoleFont = Resources.Load ("Console/OpenSans") as Font;
+		Font consoleFont = Resources.Load (path: "Console/OpenSans") as Font;
 
 		windowStyle = new GUIStyle();
 		windowStyle.alignment = TextAnchor.UpperCenter;
 		windowStyle.normal.textColor = Color.white;
-		windowStyle.normal.background = Resources.Load ("Console/Background") as Texture2D;
+		windowStyle.normal.background = Resources.Load (path: "Console/Background") as Texture2D;
 		windowStyle.normal.background.alphaIsTransparency = true;
 		windowStyle.font = consoleFont;
 		windowStyle.fontSize = consolefontSize;
@@ -71,7 +71,7 @@ public class Console {
 		//textAreaStyle.normal.background.alphaIsTransparency = true;
 
 		scrollBarStyle = new GUIStyle();
-		scrollBarStyle.normal.background = Resources.Load("Console/ScrollBar/Background") as Texture2D;
+		scrollBarStyle.normal.background = Resources.Load(path: "Console/ScrollBar/Background") as Texture2D;
 	}
 
 	//main console update
@@ -82,7 +82,7 @@ public class Console {
 	//used to draw console on screen
 	public void OnGUI() {
 		if (this.isVisible) {
-			GUILayout.BeginArea(this.rect, "Console", GUI.skin.window);
+			GUILayout.BeginArea(screenRect: this.rect, text: "Console", style: GUI.skin.window);
 				/* 
 				 * Ideally the scrollBar should always keep up with the bottom messages but that seems to be impossible using GUILayout.BeginScrollView(). Why?
 				 * 		> We can use two different modes
@@ -112,44 +112,44 @@ public class Console {
 				 * 		4) Maybe something really simple I did not think of...
 			 	*/
 				scrollPosition = GUILayout.BeginScrollView(
-					scrollPosition,
-					false,
-					true,
-					GUI.skin.horizontalScrollbar,
-					GUI.skin.verticalScrollbar
+					scrollPosition: scrollPosition,
+					alwaysShowHorizontal: false,
+					alwaysShowVertical: true,
+					horizontalScrollbar: GUI.skin.horizontalScrollbar,
+					verticalScrollbar: GUI.skin.verticalScrollbar
 					);
-					GUILayout.TextArea(msgContainer.ToString(), textAreaStyle);
+					GUILayout.TextArea(text: msgContainer.ToString(), style: textAreaStyle);
 				GUILayout.EndScrollView();
 				GUILayout.BeginHorizontal();
-					GUI.SetNextControlName("commandTextField");
-					userCommand = GUILayout.TextField(userCommand, GUILayout.Width(this.width - GUI.skin.textField.border.right
-			                                                           						  - GUI.skin.window.border.right
-			                                                           						  - GUI.skin.window.border.left));
+					GUI.SetNextControlName(name: "commandTextField");
+					userCommand = GUILayout.TextField(text: userCommand, maxLength: GUILayout.Width(width: this.width - GUI.skin.textField.border.right
+			                                                           						  				   		  - GUI.skin.window.border.right
+			                                                           						  				   		  - GUI.skin.window.border.left));
 				GUILayout.EndHorizontal();
 			GUILayout.EndArea();
-			GUI.FocusControl("commandTextField");
+			GUI.FocusControl(name: "commandTextField");
 
 		}
 	}
 
 	//method used to handle various user inputs
 	private void handleInput() {
-		if (Input.GetKeyDown(KeyCode.Return) || Input.GetKeyDown(KeyCode.KeypadEnter)) {
-			queueCommand(new Command(userCommand));
+		if (Input.GetKeyDown(key: KeyCode.Return) || Input.GetKeyDown(key: KeyCode.KeypadEnter)) {
+			queueCommand(newCommand: new Command(line: userCommand));
 		}
 	}
 
 	private void queueCommand(Command newCommand) {
 		if (userCommand.Length > 0) {
-			writeLine("Queueing command '" + userCommand + "'", consoleMessage, 1);
-			commands.Enqueue(newCommand);
+			writeLine(msg: "Queueing command '" + userCommand + "'", messageType: consoleMessage, priority: 1);
+			commands.Enqueue(item: newCommand);
 			userCommand = "";
 		}
 	}
 
 	//method used to update the rect of the console
 	private void updateRect() {
-		this.rect = new Rect(this.position.x, this.position.y, width, height);
+		this.rect = new Rect(left: this.position.x, top: this.position.y, width: width, height: height);
 	}
 
 	//sets a new position for the console
@@ -179,6 +179,6 @@ public class Console {
 	//adds a new line to the console
 	//priority sets a priority for the message
 	public void writeLine(string msg, MessageType messageType = default(MessageType), int priority = 0) {
-		msgContainer.addMessage(new Message(msg, messageType, priority));
+		msgContainer.addMessage(message: new Message(messageText: msg, messageType: messageType, priority: priority));
 	}
 }

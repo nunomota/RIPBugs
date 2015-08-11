@@ -16,7 +16,7 @@ public class Command {
 	/// <param name="line"><see cref="Command"/> as a string.</param>
 	public Command(string line) {
 		this.options = new Queue<string>();
-		parseCommand(line);
+		parseCommand(line: line);
 	}
 	
 	/// <summary>
@@ -24,14 +24,14 @@ public class Command {
 	/// </summary>
 	/// <param name="line">User input string.</param>
 	private void parseCommand(string line) {
-		string[] splitLine = line.Split(new char[]{' '});
+		string[] splitLine = line.Split(separator: new char[]{' '});
 		command = splitLine[0];
 		/*
 		TODO not assume the string comes well formated (prevent double spaces, etc...)
 		 */
 		for (int i = 1; i < splitLine.Length; i++) {
 			if (splitLine[i].Length != 0) {
-				options.Enqueue(splitLine[i]);
+				options.Enqueue(item: splitLine[i]);
 			}
 		}
 	}

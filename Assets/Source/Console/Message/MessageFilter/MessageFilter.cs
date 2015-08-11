@@ -14,7 +14,7 @@ public static class MessageFilter {
 	/// </summary>
 	/// <param name="messageType"><see cref="MessageType"/> to be added.</param>
 	public static void register(MessageType messageType) {
-		typeList.Add(messageType);
+		typeList.Add(item: messageType);
 	}
 
 	/// <summary>
@@ -23,12 +23,12 @@ public static class MessageFilter {
 	/// <param name="tag">Target tag.</param>
 	/// <param name="visibility">Desired visibility.</param>
 	public static void toogle(string tag, bool visibility) {
-		MessageType messageType = find (tag);
+		MessageType messageType = find (tag: tag);
 		if (messageType != null) {
-			RIPBugs.console.writeLine(string.Format("Turning '{0}' tag '{1}'", tag, (visibility)? "on": "off"), priority: 1);
-			messageType.toogle(visibility);
+			RIPBugs.console.writeLine(msg: string.Format(format: "Turning '{0}' tag '{1}'", arg0: tag, arg1: (visibility)? "on": "off"), priority: 1);
+			messageType.toogle(visibility: visibility);
 		} else {
-			RIPBugs.console.writeLine(string.Format("Could not find '{0}' tag...", tag), priority: 2);
+			RIPBugs.console.writeLine(msg: string.Format(format: "Could not find '{0}' tag...", arg0: tag), priority: 2);
 		}
 	}
 
@@ -38,7 +38,7 @@ public static class MessageFilter {
 	/// <param name="tag">Target <see cref="MessageType"/>.</param>
 	/// <param name="visibility">Desired visibility.</param>
 	public static void toogle(MessageType messageType, bool visibility) {
-		messageType.toogle(visibility);
+		messageType.toogle(visibility: visibility);
 	}
 
 	//NOT optimized, change data structures

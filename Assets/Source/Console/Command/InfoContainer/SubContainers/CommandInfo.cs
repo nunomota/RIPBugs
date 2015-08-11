@@ -22,7 +22,7 @@ public class CommandInfo : InfoContainer {
 	/// </summary>
 	/// <param name="flagInfo">Flag info.</param>
 	public void addFlag(FlagInfo flagInfo) {
-		flags.Add(flagInfo);
+		flags.Add(item: flagInfo);
 	}
 
 	/// <summary>
@@ -40,7 +40,7 @@ public class CommandInfo : InfoContainer {
 	/// Returns a string with detailed information.
 	/// </summary>
 	public override string detailedString() {
-		string finalString = string.Format("{0}\n\nFlags:\n\n", base.detailedString());
+		string finalString = string.Format(format: "{0}\n\nFlags:\n\n", arg0: base.detailedString());
 		for (int i = 0; i < flags.Count; i++) {
 			finalString += "\t" + flags[i].detailedString() + "\n";
 		}

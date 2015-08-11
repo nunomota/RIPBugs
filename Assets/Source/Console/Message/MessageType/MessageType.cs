@@ -33,7 +33,7 @@ public class MessageType {
 	/// <param name="line">The message's text.</param>
 	/// <param name="priority">Priority.</param>
 	public string colorText(string line, int priority = 0) {
-		return string.Format("<color={0}>{1} {2}</color>", (priority < textColors.Count) ? textColors[priority] : textColors[0], tag, line);
+		return string.Format(format: "<color={0}>{1} {2}</color>", arg0: (priority < textColors.Count) ? textColors[priority] : textColors[0], arg1: tag, arg2: line);
 	}
 	
 	/// <summary>
@@ -42,7 +42,7 @@ public class MessageType {
 	/// <param name="newColors">New colors to be added.</param>
 	public void addColors(params string[] newColors) {
 		for (int i = 0; i < newColors.Length; i++) {
-			textColors.Add(newColors[i]);
+			textColors.Add(item: newColors[i]);
 		}
 	}
 

@@ -7,7 +7,7 @@ using System.Collections;
 public static class RIPBugs {
 
 	private static bool isActive = false;									//toggles debugger on/off
-	public static Console console = new Console(1280, 720);					//main console used by debugger
+	public static Console console = new Console(width: 1280, height: 720);	//main console used by debugger
 	private static CommandHandler commandHandler = new CommandHandler();	//handler that executes and interprets commands
 
 	/// <summary>
@@ -22,12 +22,12 @@ public static class RIPBugs {
 	/// </summary>
 	public static void update() {
 		if (isActive) {
-			if (checkKeyPressed(new KeyCode[] {KeyCode.LeftControl, KeyCode.LeftShift})) {
+			if (checkKeyPressed(keys: new KeyCode[] {KeyCode.LeftControl, KeyCode.LeftShift})) {
 				console.toggle();
 			}
 			if (console.isActive()) {
 				console.update();
-				executeCommand(console.getNextCommand());
+				executeCommand(command: console.getNextCommand());
 			}
 		}
 	}
@@ -51,9 +51,9 @@ public static class RIPBugs {
 		bool newKeyPress = false;
 
 		for (int i = 0; i < keys.Length; i++) {
-			if (Input.GetKeyDown(keys[i])) {
+			if (Input.GetKeyDown(key: keys[i])) {
 				newKeyPress = true;
-			} else if (Input.GetKey(keys[i])) {
+			} else if (Input.GetKey(key: keys[i])) {
 				continue;
 			} else {
 				return false;
@@ -68,11 +68,11 @@ public static class RIPBugs {
 	/// <param name="command">Target <see cref="Command"/> to be executed.</param>
 	private static void executeCommand(Command command) {
 		if (command != null) {
-			console.writeLine(string.Format("Executing command '{0}' with {1} option(s)", command.getName(), command.getOptions().Length));
-			if (commandHandler.execute(command) < 0) {
-				console.writeLine(string.Format("Command '{0}' could not be executed...", command.getName()), priority: 2);
+			console.writeLine(msg: string.Format(format: "Executing command '{0}' with {1} option(s)", arg0: command.getName(), arg1: command.getOptions().Length));
+			if (commandHandler.execute(command: command) < 0) {
+				console.writeLine(msg: string.Format(format: "Command '{0}' could not be executed...", arg0: command.getName()), priority: 2);
 			} else {
-				console.writeLine(string.Format("Command '{0}' finished execution", command.getName()), priority: 0);
+				console.writeLine(msg: string.Format("Command '{0}' finished execution", arg0: command.getName()), priority: 0);
 			}
 		}
 	}

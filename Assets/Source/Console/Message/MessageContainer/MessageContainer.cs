@@ -25,8 +25,8 @@ public class MessageContainer {
 		this.messages = new Message[(numberOfMessages > 0) ? numberOfMessages : defaultNumberOfMessages];
 		this.indexOfLast = messages.Length-1;
 
-		this.messageType = new MessageType("[MsgCont]");
-		this.messageType.addColors("blue");
+		this.messageType = new MessageType(tag: "[MsgCont]");
+		this.messageType.addColors(newColors: "blue");
 	}
 	
 	/// <summary>
@@ -35,12 +35,12 @@ public class MessageContainer {
 	/// <param name="message"><see cref="Message"/> to be added.</param>
 	public void addMessage(Message message) {
 		if (message.getType().getVisibility()) {
-			Debug.Log("MessageType enabled, adding message");
-			incIndex(ref indexOfLast);
+			Debug.Log(message: "MessageType enabled, adding message");
+			incIndex(targetIndex: ref indexOfLast);
 			this.messages[indexOfLast] = message;
 			messagesStored += (messagesStored < maxMessages)? 1: 0;
 		} else {
-			Debug.Log("MessageType disabled, discarding message");
+			Debug.Log(message: "MessageType disabled, discarding message");
 		}
 	}
 	
@@ -60,12 +60,12 @@ public class MessageContainer {
 		string fullString = "";
 		//if indexOfLast is the last index, incIndex(indexOfLast) will be the 1st
 		int curIndex = indexOfLast;
-		incIndex(ref curIndex);
+		incIndex(targetIndex: ref curIndex);
 		while (curIndex != indexOfLast) {
 			if (messages[curIndex] != null) {
 				fullString += messages[curIndex].getText() + "\n";
 			}
-			incIndex(ref curIndex);
+			incIndex(targetIndex: ref curIndex);
 		}
 		//last line will not have "\n" at the end
 		if (messages[curIndex] != null) {

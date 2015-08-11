@@ -17,8 +17,8 @@ public class CommandHandler {
 	/// Initializes a new instance of the <see cref="CommandHandler"/> class.
 	/// </summary>
 	public CommandHandler() {
-		this.commandMessageType = new MessageType("[CmdHndl]");
-		loadXml("Console/Commands/DataBase");
+		this.commandMessageType = new MessageType(tag: "[CmdHndl]");
+		loadXml(xmlPath: "Console/Commands/DataBase");
 	}
 	
 	/// <summary>
@@ -44,7 +44,7 @@ public class CommandHandler {
 			if (options.Length == 0) {
 				printCommandList();
 			} else {
-				printCommandInfo(options[0]);
+				printCommandInfo(commandName: options[0]);
 			}
 			break;
 		case "filter":
@@ -52,11 +52,11 @@ public class CommandHandler {
 				//TODO some warning about wrong command usage
 				//maybe count dependencies and compare to that value...?
 			} else {
-				MessageFilter.toogle(options[0], (options[1] == "on")? true: false);
+				MessageFilter.toogle(messageType: options[0], visibility: (options[1] == "on")? true: false);
 			}
 			break;
 		default:
-			commandNotFoundPrint(command.getName());
+			commandNotFoundPrint(commandName: command.getName());
 			return -2;
 		}
 		return 0;
@@ -67,7 +67,7 @@ public class CommandHandler {
 	/// </summary>
 	/// <param name="xmlPath">Xml file path.</param>
 	private void loadXml(string xmlPath) {
-		MyXmlReader xmlReader = new MyXmlReader(xmlPath);
+		MyXmlReader xmlReader = new MyXmlReader(xmlPath: xmlPath);
 		commandList = xmlReader.readXmlCommands();
 		createHashTable();
 	}
@@ -78,7 +78,7 @@ public class CommandHandler {
 	private void createHashTable() {
 		//Debug.Log(string.Format ("List has {0} commands", commandList.Count));
 		commandTable = new CommandHashTable();
-		commandTable.populate(commandList);
+		commandTable.populate(commandList: commandList);
 	}
 
 	/// <summary>
@@ -86,10 +86,10 @@ public class CommandHandler {
 	/// </summary>
 	private void printCommandList() {
 		CommandInfo helpInfo = commandTable.get("help");
-		RIPBugs.console.writeLine(string.Format("help:\n{0}\n", helpInfo.getDescription()), commandMessageType, 0);
+		RIPBugs.console.writeLine(msg: string.Format(format: "help:\n{0}\n", arg0: helpInfo.getDescription()), messageType: commandMessageType, priority: 0);
 		foreach(CommandInfo commandInfo in commandList) {
 			if (commandInfo.getName() != "help") {
-				RIPBugs.console.writeLine(commandInfo.simpleString(), commandMessageType, 0);
+				RIPBugs.console.writeLine(msg: commandInfo.simpleString(), messageType: commandMessageType, priority: 0);
 			}
 		}
 	}
@@ -99,11 +99,11 @@ public class CommandHandler {
 	/// </summary>
 	/// <param name="commandName">Command name.</param>
 	private void printCommandInfo(string commandName) {
-		CommandInfo commandInfo = commandTable.get(commandName);
+		CommandInfo commandInfo = commandTable.get(commandName: commandName);
 		if (commandInfo != null) {
-			RIPBugs.console.writeLine(commandInfo.detailedString());
+			RIPBugs.console.writeLine(msg: commandInfo.detailedString());
 		} else {
-			commandNotFoundPrint(commandName);
+			commandNotFoundPrint(commandName: commandName);
 		}
 	}
 
@@ -112,6 +112,6 @@ public class CommandHandler {
 	/// </summary>
 	/// <param name="commandName">Command's name.</param>
 	private void commandNotFoundPrint(string commandName) {
-		RIPBugs.console.writeLine(string.Format("{0}: command not found. Type 'help' to get a list of existing commands", commandName));
+		RIPBugs.console.writeLine(msg: string.Format(format: "{0}: command not found. Type 'help' to get a list of existing commands", arg0: commandName));
 	}
 }

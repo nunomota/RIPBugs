@@ -21,13 +21,13 @@ public class FlagInfo : InfoContainer {
 	/// Returns a string with simple information.
 	/// </summary>
 	public override string simpleString () {
-		return string.Format("{0}{1}", base.simpleString(), (this.dependencies)? "*": "");
+		return string.Format(format: "{0}{1}", arg0: base.simpleString(), arg1: (this.dependencies)? "*": "");
 	}
 
 	/// <summary>
 	/// Returns a string with detailed information.
 	/// </summary>
 	public override string detailedString () {
-		return string.Format("{0}{1}\t\t{2}", this.name, (this.dependencies)? "*": "", this.description);
+		return string.Format(format: "{0}{1}\t\t{2}", arg0: this.name, arg1: (this.dependencies)? "*": "", arg2: this.description);
 	}
 }

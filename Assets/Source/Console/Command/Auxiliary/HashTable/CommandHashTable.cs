@@ -27,7 +27,7 @@ public class CommandHashTable {
 		//array = new CommandInfo[this.size];
 
 		this.occupationFactorPercentage = occupationFactorPercentage;
-		hashTableMessageType = new MessageType("[HashTable]");
+		hashTableMessageType = new MessageType(tag: "[HashTable]");
 	}
 
 	/// <summary>
@@ -35,10 +35,10 @@ public class CommandHashTable {
 	/// </summary>
 	/// <param name="commandList">Command list.</param>
 	public void populate(List<CommandInfo> commandList) {
-		this.size = calculateAdequateSize(commandList.Count, occupationFactorPercentage);
+		this.size = calculateAdequateSize(nElements: commandList.Count, occupationFacterPercentage: occupationFactorPercentage);
 		this.array = new CommandInfo[this.size];
 		foreach(CommandInfo commandInfo in commandList) {
-			this.add(commandInfo);
+			this.add(commandInfo: commandInfo);
 		}
 	}
 	
@@ -47,9 +47,9 @@ public class CommandHashTable {
 	/// </summary>
 	/// <param name="commandInfo"><see cref="CommandInfo"/> to be added.</param>
 	private void add(CommandInfo commandInfo) {
-		int index = hashFunction(commandInfo.getName());
+		int index = hashFunction(commandName: commandInfo.getName());
 		if (array[index] != null) {
-			index = collisionHandler(index);
+			index = collisionHandler(index: index);
 		}
 		array[index] = commandInfo;
 	}
@@ -59,9 +59,9 @@ public class CommandHashTable {
 	/// </summary>
 	/// <param name="commandName">Command name.</param>
 	public CommandInfo get(string commandName) {
-		int index = hashFunction(commandName);
+		int index = hashFunction(commandName: commandName);
 		while (array[index] != null && array[index].getName() != commandName) {
-			incIndex(ref index);
+			incIndex(index: ref index);
 		}
 		return array[index];
 	}
@@ -84,14 +84,14 @@ public class CommandHashTable {
 
 		//just as a precaution
 		if (occupationFactorPercentage <= 0 || occupationFactorPercentage > 100) {
-			RIPBugs.console.writeLine(string.Format("Occupation percetage was not within the interval ]0%, 100%]... Defaulting to {0}%", occupationDefault), hashTableMessageType, 1);
+			RIPBugs.console.writeLine(msg: string.Format(format: "Occupation percetage was not within the interval ]0%, 100%]... Defaulting to {0}%", arg0: occupationDefault), messageType: hashTableMessageType, priority: 1);
 			occupationFactorPercentage = occupationDefault;
 		}
-		int minSizeNeeded = Mathf.CeilToInt((float)nElements * (100.0f/(float)occupationFactorPercentage));
+		int minSizeNeeded = Mathf.CeilToInt(f: (float)nElements * (100.0f/(float)occupationFactorPercentage));
 		int adequateSize;
-		RIPBugs.console.writeLine(string.Format("Minimum HashTable size for {0} elements, with {1}% of occupation, is {2}", nElements, occupationFactorPercentage, minSizeNeeded), hashTableMessageType, 0);
+		RIPBugs.console.writeLine(msg: string.Format(format: "Minimum HashTable size for {0} elements, with {1}% of occupation, is {2}", arg0: nElements, arg1: occupationFactorPercentage, arg2: minSizeNeeded), messageType: hashTableMessageType, priority: 0);
 		//adequateSize becomes the next prime we have greater than the size we need
-		if ((adequateSize = nextPrime(minSizeNeeded, primeNumbers)) == -1) {
+		if ((adequateSize = nextPrime(minSizeNeeded: minSizeNeeded, primeNumbers: primeNumbers)) == -1) {
 			//we dont have enough prime numbers, so at least we allocate an odd number of positions 
 			adequateSize = (minSizeNeeded % 2 == 0)? minSizeNeeded+1: minSizeNeeded;
 		}
@@ -128,12 +128,12 @@ public class CommandHashTable {
 		int charIndex;
 		//TODO limit the number of characters that can be analized, as a double cant go to infinity...
 		for (int i = 0; i < commandName.Length; i++) {
-			charIndex = getCharIndex(commandName[i]);
+			charIndex = getCharIndex(character: commandName[i]);
 			if (charIndex == -1) {
-				RIPBugs.console.writeLine(string.Format("{0} is not a valid character", commandName[i]), hashTableMessageType, 1);
+				RIPBugs.console.writeLine(msg: string.Format(format: "{0} is not a valid character", arg0: commandName[i]), messageType: hashTableMessageType, priority: 1);
 				return -1;
 			}
-			sum += ((double)charIndex)*Mathf.Pow(validCharacters.Length, i);
+			sum += ((double)charIndex)*Mathf.Pow(f: validCharacters.Length, p: i);
 		}
 		return (int)(sum % size);
 	}
@@ -144,7 +144,7 @@ public class CommandHashTable {
 	/// <returns>The char index.</returns>
 	/// <param name="character">Character.</param>
 	private int getCharIndex(char character) {
-		return validCharacters.IndexOf(character);
+		return validCharacters.IndexOf(value: character);
 	}
 	
 	/// <summary>
@@ -155,7 +155,7 @@ public class CommandHashTable {
 	private int collisionHandler(int index) {
 		int curIndex = index;
 		while (array[curIndex] != null) {
-			incIndex(ref curIndex);
+			incIndex(index: ref curIndex);
 		}
 		return curIndex;
 	}

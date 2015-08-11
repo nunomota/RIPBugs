@@ -31,7 +31,7 @@ public class MTAvlNode {
 	/// <param name="node1">First <see cref="MTAvlNode"/>.</param>
 	/// <param name="node2">Second <see cref="MTAvlNode"/>.</param>
 	public static int Compare(MTAvlNode node1, MTAvlNode node2) {
-		return node1.CompareTo(node2);
+		return node1.CompareTo(cmpNode: node2);
 	}
 
 	/// <summary>
@@ -42,7 +42,7 @@ public class MTAvlNode {
 	/// </returns>
 	/// <param name="cmpNode">Target <see cref="MTAvlNode"/>.</param>
 	public int CompareTo(MTAvlNode cmpNode) {
-		return string.Compare(this.getValue().getTag(), cmpNode.getValue().getTag());
+		return string.Compare(strA: this.getValue().getTag(), strB: cmpNode.getValue().getTag());
 	}
 
 	/* -------------------------------
@@ -52,16 +52,16 @@ public class MTAvlNode {
 		this.weight = weight;
 	}
 
-	public void setUp(MTAvlNode up) {
-		this.up = up;
+	public void setUp(MTAvlNode node) {
+		this.up = node;
 	}
 
-	public void setLeft (MTAvlNode left) {
-		this.left = left;
+	public void setLeft (MTAvlNode node) {
+		this.left = node;
 	}
 
-	public void setRight (MTAvlNode right) {
-		this.right = right;
+	public void setRight (MTAvlNode node) {
+		this.right = node;
 	}
 
 	public void setValue (MessageType value) {

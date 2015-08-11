@@ -23,11 +23,11 @@ public class MTAvlTree {
 	public void add(MessageType value) {
 		MTAvlNode curNode = null;
 		MTAvlNode nextNode = root;
-		MTAvlNode newNode = new MTAvlNode(value);
+		MTAvlNode newNode = new MTAvlNode(value: value);
 		int nodeCmp = 0;							//it is irrelevant the initial value set to this variable
 		while (nextNode != null) {
 			curNode = nextNode;
-			if ((nodeCmp = newNode.CompareTo(curNode)) != 0) {
+			if ((nodeCmp = newNode.CompareTo(cmpNode: curNode)) != 0) {
 				nextNode = (nodeCmp < 0)? curNode.getLeft(): curNode.getRight();
 			} else {
 				//another MessageType already exists with the exact same tag... don't add a new one
@@ -35,7 +35,7 @@ public class MTAvlTree {
 				return;
 			}
 		}
-		insertNode(curNode, newNode, nodeCmp);
+		insertNode(father: curNode,newNode:  newNode, nodeCmp: nodeCmp);
 	}
 
 	/// <summary>
@@ -46,13 +46,13 @@ public class MTAvlTree {
 	/// <param name="nodeCmp">Value that indicates the side in which to add the 'child' (right or left).</param>
 	private void insertNode(MTAvlNode father, MTAvlNode newNode, int nodeCmp) {
 		if (father != null) {
-			newNode.setUp(father);
+			newNode.setUp(node: father);
 			if (nodeCmp < 0) {
-				father.setLeft(newNode);
+				father.setLeft(node: newNode);
 			} else {
-				father.setRight(newNode);
+				father.setRight(node: newNode);
 			}
-			balanceTree(newNode);
+			balanceTree(bottomNode: newNode);
 		} else {
 			//means there was still no Node inserted in the tree
 			this.root = newNode;
