@@ -25,10 +25,10 @@ public static class MessageFilter {
 	public static void toogle(string tag, bool visibility) {
 		MessageType messageType = find (tag: tag);
 		if (messageType != null) {
-			RIPBugs.console.writeLine(msg: string.Format(format: "Turning '{0}' tag '{1}'", arg0: tag, arg1: (visibility)? "on": "off"), priority: 1);
+			RIPBugs.console.writeLine(msg: string.Format("Turning '{0}' tag '{1}'", tag, (visibility)? "on": "off"), priority: 1);
 			messageType.toogle(visibility: visibility);
 		} else {
-			RIPBugs.console.writeLine(msg: string.Format(format: "Could not find '{0}' tag...", arg0: tag), priority: 2);
+			RIPBugs.console.writeLine(msg: string.Format("Could not find '{0}' tag...", tag), priority: 2);
 		}
 	}
 

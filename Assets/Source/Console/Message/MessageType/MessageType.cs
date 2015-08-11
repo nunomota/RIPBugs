@@ -33,7 +33,7 @@ public class MessageType {
 	/// <param name="line">The message's text.</param>
 	/// <param name="priority">Priority.</param>
 	public string colorText(string line, int priority = 0) {
-		return string.Format(format: "<color={0}>{1} {2}</color>", arg0: (priority < textColors.Count) ? textColors[priority] : textColors[0], arg1: tag, arg2: line);
+		return string.Format("<color={0}>{1} {2}</color>", (priority < textColors.Count) ? textColors[priority] : textColors[0], tag, line);
 	}
 	
 	/// <summary>

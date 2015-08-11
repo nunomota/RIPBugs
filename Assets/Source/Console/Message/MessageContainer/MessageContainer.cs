@@ -36,7 +36,7 @@ public class MessageContainer {
 	public void addMessage(Message message) {
 		if (message.getType().getVisibility()) {
 			Debug.Log(message: "MessageType enabled, adding message");
-			incIndex(targetIndex: ref indexOfLast);
+			incIndex(ref indexOfLast);
 			this.messages[indexOfLast] = message;
 			messagesStored += (messagesStored < maxMessages)? 1: 0;
 		} else {
@@ -60,12 +60,12 @@ public class MessageContainer {
 		string fullString = "";
 		//if indexOfLast is the last index, incIndex(indexOfLast) will be the 1st
 		int curIndex = indexOfLast;
-		incIndex(targetIndex: ref curIndex);
+		incIndex(ref curIndex);
 		while (curIndex != indexOfLast) {
 			if (messages[curIndex] != null) {
 				fullString += messages[curIndex].getText() + "\n";
 			}
-			incIndex(targetIndex: ref curIndex);
+			incIndex(ref curIndex);
 		}
 		//last line will not have "\n" at the end
 		if (messages[curIndex] != null) {

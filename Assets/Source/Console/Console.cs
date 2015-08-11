@@ -122,9 +122,10 @@ public class Console {
 				GUILayout.EndScrollView();
 				GUILayout.BeginHorizontal();
 					GUI.SetNextControlName(name: "commandTextField");
-					userCommand = GUILayout.TextField(text: userCommand, maxLength: GUILayout.Width(width: this.width - GUI.skin.textField.border.right
-			                                                           						  				   		  - GUI.skin.window.border.right
-			                                                           						  				   		  - GUI.skin.window.border.left));
+					//TODO check correct way of positional arguments usage
+					userCommand = GUILayout.TextField(userCommand, GUILayout.Width(width: this.width - GUI.skin.textField.border.right
+			                                                           						  		 - GUI.skin.window.border.right
+			                                                           						  		 - GUI.skin.window.border.left));
 				GUILayout.EndHorizontal();
 			GUILayout.EndArea();
 			GUI.FocusControl(name: "commandTextField");

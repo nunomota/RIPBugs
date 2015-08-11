@@ -56,6 +56,6 @@ public class InfoContainer {
 	/// Detailed string containing both name and description.
 	/// </returns>
 	public virtual string detailedString() {
-		return string.Format (format: "{0}:\n{1}", arg0: this.name, arg1: this.description);
+		return string.Format ("{0}:\n{1}", this.name, this.description);
 	}
 }

@@ -52,7 +52,7 @@ public class CommandHandler {
 				//TODO some warning about wrong command usage
 				//maybe count dependencies and compare to that value...?
 			} else {
-				MessageFilter.toogle(messageType: options[0], visibility: (options[1] == "on")? true: false);
+				MessageFilter.toogle(tag: options[0], visibility: (options[1] == "on")? true: false);
 			}
 			break;
 		default:
@@ -86,7 +86,7 @@ public class CommandHandler {
 	/// </summary>
 	private void printCommandList() {
 		CommandInfo helpInfo = commandTable.get("help");
-		RIPBugs.console.writeLine(msg: string.Format(format: "help:\n{0}\n", arg0: helpInfo.getDescription()), messageType: commandMessageType, priority: 0);
+		RIPBugs.console.writeLine(msg: string.Format("help:\n{0}\n", helpInfo.getDescription()), messageType: commandMessageType, priority: 0);
 		foreach(CommandInfo commandInfo in commandList) {
 			if (commandInfo.getName() != "help") {
 				RIPBugs.console.writeLine(msg: commandInfo.simpleString(), messageType: commandMessageType, priority: 0);
@@ -112,6 +112,6 @@ public class CommandHandler {
 	/// </summary>
 	/// <param name="commandName">Command's name.</param>
 	private void commandNotFoundPrint(string commandName) {
-		RIPBugs.console.writeLine(msg: string.Format(format: "{0}: command not found. Type 'help' to get a list of existing commands", arg0: commandName));
+		RIPBugs.console.writeLine(msg: string.Format("{0}: command not found. Type 'help' to get a list of existing commands", commandName));
 	}
 }

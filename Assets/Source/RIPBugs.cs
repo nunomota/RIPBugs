@@ -68,11 +68,11 @@ public static class RIPBugs {
 	/// <param name="command">Target <see cref="Command"/> to be executed.</param>
 	private static void executeCommand(Command command) {
 		if (command != null) {
-			console.writeLine(msg: string.Format(format: "Executing command '{0}' with {1} option(s)", arg0: command.getName(), arg1: command.getOptions().Length));
+			console.writeLine(msg: string.Format("Executing command '{0}' with {1} option(s)", command.getName(), command.getOptions().Length));
 			if (commandHandler.execute(command: command) < 0) {
-				console.writeLine(msg: string.Format(format: "Command '{0}' could not be executed...", arg0: command.getName()), priority: 2);
+				console.writeLine(msg: string.Format("Command '{0}' could not be executed...", command.getName()), priority: 2);
 			} else {
-				console.writeLine(msg: string.Format("Command '{0}' finished execution", arg0: command.getName()), priority: 0);
+				console.writeLine(msg: string.Format("Command '{0}' finished execution", command.getName()), priority: 0);
 			}
 		}
 	}
